@@ -4,6 +4,7 @@ import  userRoutes  from './routes/auth.js';
 import {connectToMongoDb} from './config/db.js'
 
 const app = express();
+app.use(cross({origin:'*'}));
 
 app.get('/', function (req, res) {
   res.send('Welcome to music server');
