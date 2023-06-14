@@ -4,8 +4,12 @@ import  {userRoutes,AlbumsRouter,ArtistRouter,SongRouter}  from './routes/index.
 import {connectToMongoDb} from './config/db.js'
 
 const app = express();
+// Configurations
 app.use(cross({origin:'*'}));
+app.use(express.json()); 
 
+
+// Routes
 app.get('/', function (req, res) {
   res.send('Welcome to music server');
 });
@@ -32,6 +36,9 @@ app.use('/api/artists/',ArtistRouter);
 //Albums Routes
 app.use('/api/albums/',AlbumsRouter);
 
+
+
+//Listen to port 4000
 app.listen(4000,()=>{
   console.log('the server is up')
   connectToMongoDb();
