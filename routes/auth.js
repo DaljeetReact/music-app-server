@@ -1,10 +1,27 @@
 import  express from 'express';
 import {fireService} from '../config/firebase.config.js'
 import {insertUser} from "../controller/userController.js"
+import users from '../models/users.js';
 
 const userRoutes = express.Router();
 // define the default user routes
-userRoutes.get('/', (req, res) => {res.send('Users Routes')});
+userRoutes.get('/:id?',async(req, res) => {
+   let id = req.params.id;
+   if (id) {
+       await users.findById(id).then((data) => {
+           return res.status(200).json({ status: "success", data });
+       }).catch((err) => {
+           return res.status(400).json({ status: "error", msg: "No User found with this id", id });
+       });
+   }
+
+   await users.find({}).then((data) => {
+       return res.status(200).json({ status: "success", data });
+   }).catch((err) => {
+       return res.status(400).json({ status: "error", msg: "No Record found" });
+
+   })
+});
   
 // define the home page route
 userRoutes.get('/login',async (req, res)  => {
