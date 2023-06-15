@@ -5,7 +5,7 @@ import users from '../models/users.js';
 
 const userRoutes = express.Router();
 // define the default user routes
-userRoutes.get('/:id?',async(req, res) => {
+userRoutes.get('/fetch/:id?',async(req, res) => {
    let id = req.params.id;
    if (id) {
        await users.findById(id).then((data) => {
