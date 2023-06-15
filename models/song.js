@@ -19,7 +19,7 @@ const SongSchema = new mongoose.Schema({
     type:String,
     required:true
   },
-  lan:{
+  language:{
     type:String,
     required:true
   },
