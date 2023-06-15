@@ -5,8 +5,8 @@ import {connectToMongoDb} from './config/db.js'
 
 const app = express();
 // Configurations
-app.use(cross({origin:'*'}));
-app.use(express.json()); 
+app.use(cross({origin:'*'})); // enable cross origin from 
+app.use(express.json()); // enable accept json body
 
 
 // Routes
