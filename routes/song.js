@@ -1,5 +1,5 @@
 import  express from 'express';
-import {FindSong,insertSong,DeleteSong,UpdateSong} from "../controller/songController.js"
+import {FindSong,insertSong,DeleteSong,UpdateSong,FindSongsByAlbumOrArtist} from "../controller/songController.js"
 const SongRouter = express.Router();
 
 SongRouter.get("/:id?", async (req, res) => {
@@ -17,5 +17,14 @@ SongRouter.delete("/:id?", async (req, res) => {
 SongRouter.put("/", async (req, res) => {
     UpdateSong(req, res);
 })
+
+SongRouter.get("/album/:name?",async (req,res)=>{
+    FindSongsByAlbumOrArtist(req,res,"album")
+})
+
+SongRouter.get("/artist/:name?",async (req,res)=>{
+    FindSongsByAlbumOrArtist(req,res,"artist")
+})
+
 
 export default SongRouter;

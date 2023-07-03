@@ -2,8 +2,8 @@ import songModal from "../models/song.js"
 
 // insert
 export const insertSong = async (req, res) => {
-    const { name, imgUrl,songUrl,album,artist,language,category} = req.body;
-    const newSong = songModal({ name, imgUrl,songUrl,album,artist,language,category});
+    const { name, imgUrl, songUrl, album, artist, language, category } = req.body;
+    const newSong = songModal({ name, imgUrl, songUrl, album, artist, language, category });
 
     await newSong.save().then((result) => {
         return res.status(201).send({ status: 201, Song: result })
@@ -37,11 +37,11 @@ export const UpdateSong = async (req, res) => {
         upset: true,
         new: true
     }
-    if(!id){
-        return res.status(400).send({ status: "error", msg:"Invalid id" })
+    if (!id) {
+        return res.status(400).send({ status: "error", msg: "Invalid id" })
 
     }
-    await songModal.findOneAndUpdate(filter, { name, imgUrl,songUrl,album,artist,language,category}, options).then((data) => {
+    await songModal.findOneAndUpdate(filter, { name, imgUrl, songUrl, album, artist, language, category }, options).then((data) => {
         return res.status(204).json({ status: "success", msg: "data has been deleted Successfully" });
     }).catch((error) => {
         return res.status(400).send({ status: "error", msg: err })
@@ -61,5 +61,22 @@ export const DeleteSong = async (req, res) => {
     }
 
     return res.status(400).json({ status: "error", msg: "Please add Song Id" });
+
+}
+export const FindSongsByAlbumOrArtist = async (req, res, fetchType) => {
+    let name = req.params.name;
+    let filter = { album: name };
+    if (fetchType == "artist") {
+        filter = { artist: name };
+    }
+
+    if (name != "") {
+        await songModal.find(filter).then((data) => {
+            return res.status(200).json({ status: "success", data });
+        }).catch((err) => {
+            return res.status(400).json({ status: "error", msg: `Something went wrong in songs with ${fetchType}`, err });
+        });
+    }
+    return res.status(400).json({ status: "error", msg: `Please add ${fetchType} name` });
 
 }
